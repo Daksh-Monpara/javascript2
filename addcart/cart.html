@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+     <link rel="stylesheet" href="bootstrap.min.css">
+     <title>Cart</title>
+</head>
+<body>
+    
+    <div class="container">
+        <h2 align="center">View Cart</h2>
+        <table class="table" border="1" width="800">
+            <thead>
+                <th>Srno</th>
+                <th>Name</th>
+                <th>Img</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th>Action</th>
+            </thead>
+            <tbody id="carts"></tbody>
+        </table>
+        <h2 id="ftotal"></h2>
+        <a href="addcart.html">Continue Shopping</a>
+    </div>
+
+     <script>
+        const viewCart = () => {
+            let tbl ="";
+            let sum =0
+            let allcart = JSON.parse(localStorage.getItem("cart"));
+            if(allcart){
+                allcart.forEach((item,index)=>{
+                    sum = sum + item.price * item.qty;
+
+                    tbl += `<tr>
+                    <td>${index+1}</td>
+                    <td>${item.name}</td>
+                    <td>
+                        <img src="${item.image}" width="50">
+                    </td>
+                    <td>${item.price}</td>
+                    <td>
+                         <input type="number" id="qty_${item.id}" onchange="editCart(${item.id})" value="${item.qty}">
+                    </td>
+                    <td>${item.price * item.qty}</td>
+                    <td>
+                        <button onclick="deleteRecord(${item.id})">Delete</button>
+                    </td>
+                    </tr>
+                    `
+                });
+                document.getElementById("carts").innerHTML = tbl;
+               document.getElementById("ftotal").innerHTML = `Final Total :- ${sum}`;
+            }
+            
+        }
+        
+        viewCart();
+
+        const deleteRecord = (id) => {
+            let allcart = JSON.parse(localStorage.getItem('cart'));
+            allcart = allcart.filter(item => item.id !== id);
+            localStorage.setItem('cart',JSON.stringify(allcart));
+            viewCart();
+        }
+         
+        const editCart = (id) => {
+            let allcart =JSON.parse(localStorage.getItem('cart'));
+            let qty = document.getElementById(`qty_${id}`).value;
+            allcart.map((val)=>{
+                if(val.id == id){
+                    val.qty = qty;
+                }
+                return val;
+            })
+            localStorage.setItem('cart',JSON.stringify(allcart));
+            alert("Cart Updated");
+            viewCart();
+        }
+
+     </script>
+
+</body>
+</html>

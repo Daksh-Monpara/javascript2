@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Cart</title>
+     <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="d-flex justify-content-between py-3 align-items-center">
+            <h2 align="center">Product</h2>
+            <a href="cart.html">Cart</a>
+        </div>
+        <div class="row" id="product">
+
+        </div>
+    </div>    
+   
+    <script type="text/javascript">
+        let product = [
+            {
+                id: 1,
+                name: "Product 1",
+                price: 154000,
+                image: "img/mobile.png",
+                qty: 1,
+                description: "mobile"
+            },
+            {
+                id: 2,
+                name: "Product 2",
+                price: 112490,
+                image: "img/laptop.webp",
+                qty: 1,
+                description: "laptop"
+            },
+            {
+                id: 3,
+                name: "Product 3",
+                price: 70900,
+                image: "img/watch.jpg",
+                qty: 1,
+                description: "watch"
+            },
+            {
+                id: 4,
+                name: "Product 4",
+                price: 59900,
+                image: "img/headphone.jpg",
+                qty: 1,
+                description: "headphone"
+            },
+            {
+                id: 5,
+                name: "Product 5",
+                price: 10900,
+                image: "img/specker.jpg",
+                qty: 1,
+                description: "speaker"
+            },
+            {
+                id: 6,
+                name: "Product 6",
+                price: 7500,
+                image: "img/mouse.jpg",
+                qty: 1,
+                description: "mouse"
+            },
+            {
+                id: 7,
+                name: "Product 7",
+                price: 19500,
+                image: "img/keyboard.jpg",
+                qty: 1,
+                description: "keyboard"
+            },
+            {
+                id: 8,
+                name: "Product 8",
+                price: 189900,
+                image: "img/monitar.jpg",
+                qty: 1,
+                description: "monitor"
+            },
+            {
+                id: 9,
+                name: "Product 9",
+                price: 129900,
+                image: "img/mac.jpg",
+                qty: 1,
+                description: "mac"
+            }
+        ]
+
+         const ViewProduct = () => {
+            let tbl = "";
+            product.map((val,index) =>{
+                 return (
+                    tbl += `
+                          <div class="col-lg-4">
+                              <div class="card p-3">
+                                   <img src="${val.image}" style="height:300px; object-fit:contain;" class="card-img-top">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">sometim{e quick example text to build</p>
+                                            <button onclick="addToCart(${val.id})" class="btn btn-primary">Add to Cart</button>
+                                        </div>
+                                </div>
+                            </div>
+                    `
+                 )
+            })
+              document.getElementById("product").innerHTML = tbl;
+         }
+         ViewProduct();
+          let cart = []
+
+            const addToCart = (id) => {
+                  product.map((val,index) => {
+                      if(val.id == id){
+                           
+                        if(localStorage.getItem('cart')===null || localStorage.getItem('cart')===undefined){
+                            cart.push(val);
+                            localStorage.setItem('cart',JSON.stringify(cart))
+                        }else{
+                            let allcart = JSON.parse(localStorage.getItem('cart'));
+                            allcart.push(val);
+                            localStorage.setItem('cart',JSON.stringify(allcart));
+                        }
+                          
+                      }
+                  })
+                   alert("product add in cart")
+            }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>     
+</body>
+</html>
